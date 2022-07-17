@@ -1,0 +1,10 @@
+Comments:
+
+Комментарий студента 10.06.2022
+- исправлены requirements
+- исправлен views
+- исправлен tmp_rfm_monetary_value
+- исправлен tmp_rfm_recency
+- исправлен скрипт datamart_ddl
+- создан скрипт datamart_query
+- исправлен скрипт orders_view
