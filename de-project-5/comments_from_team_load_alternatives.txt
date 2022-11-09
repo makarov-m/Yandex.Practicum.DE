@@ -1,0 +1,19 @@
+Timur Aleinikov
+23 days ago
+
+@Евгений Пантелеев выше намекнул на самую простую и рабочую реализацию (под наш объем данных) в одном PythonOperator. Дополню только, что есть одна не очевидная из документации Airflow [1] проблема - для нормально работы на повторных запусках вы захотите выставить параметр target_hook.insert_rows(..., replace=True), что вызовет ошибку. Postgres потребует уникальности индекса. В документации не нашел, но в исходниках хука [2] есть параметр , replace_index в котором можно передать колонку с уникальным индексом для upsert.
+В итоге реализация функции прочитать из, записать в у меня выглядит так:
+def runner(source_hook,target_hook,sql,table_name): 
+    df = source_hook.get_pandas_df(sql)
+    df.set_index('id')
+    target_hook.insert_rows(
+    table_name, 
+    df.values,
+    target_fields=df.columns.tolist(),
+    commit_every=100, 
+    replace=True, 
+    replace_index='id'
+    )
+
+[1]https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/hooks/dbapi/index.html#module-airflow.hooks.dbapi
+[2]https://airflow.apache.org/docs/apache-airflow/1.10.14/_modules/airflow/hooks/postgres_hook.html
