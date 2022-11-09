@@ -10,6 +10,12 @@ Here I added 4 projects which have been made by me during my apprenticeship in Y
 **Tools:** Python, Docker, PostgreSQL, Airflow <br />
 **Results:** Scripts for data loading have been created<br />
 
+**[2. User Segmentation](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-2)** <br />
+**Topic:** optimize DB structure <br />
+**Task:** re-build DB schema <br />
+**Tools:** Docker, PostgreSQL <br />
+**Results:** Scripts for changing DB structure <br />
+
 **[1. User Segmentation](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-1)** <br />
 **Topic:** datamarts building <br />
 **Task:** Create RFM segmentation in local DB <br />
