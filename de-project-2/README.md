@@ -52,3 +52,26 @@ Field names:
 - 4_temp_tables_query.sql
 
 - 5_shipping_datamart_view.sql
+
+### How to work with the repository
+
+1. Copy the repository to your local machine:
+	* `git clone https://github.com/{{ username }}/de-project-2.git`
+2. Change to the project directory: 
+	* `cd de-project-2`
+3. Run docker with a command:
+
+```
+ docker run -d --rm -p 3000:3000 -p 15432:5432 \
+ --name=de-project-sprint-2-server \
+ sindb/project-sprint-2:latest
+```
+
+4. After the container starts, you will have access to:
+- Database
+	- `http://localhost:3000`
+
+### Repository structure
+- `/src/`
+- `/img/`
+
