@@ -1,41 +1,47 @@
-# Проект 2
-Задача: оптимизировать нагрузку на хранилище, сделав миграцию данных в отдельные логические таблицы, а затем собрать на них витрину данных. 
+# The 2nd project
+Task: optimize the load on the storage by migrating data into separate logical tables, and then building a data mart on them.
 
-## Ход выполнения проекта
+### ER-diagram before
 
-1. Создать справочник стоимости доставки в страны `shipping_country_rates` из данных, указанных в `shipping_country` и `shipping_country_base_rate`, сделать первичный ключ таблицы — серийный `id`, то есть серийный идентификатор каждой строчки. Дать серийному ключу имя `id`. Справочник должен состоять из уникальных пар полей из таблицы shipping.
+![](img/before.png)
 
-2. Создать справочник тарифов доставки вендора по договору `shipping_agreement` из данных строки `vendor_agreement_description` через разделитель ":".
-Названия полей:
+### ER-diagram after
+
+![](img/after.png)
+
+## Project plan
+
+1. Create a directory of shipping costs to countries `shipping_country_rates` from the data specified in `shipping_country` and `shipping_country_base_rate`, make the primary key of the table - serial `id`, that is, the serial identifier of each row. Name the serial key `id`. The directory must consist of unique pairs of fields from the shipping table.
+
+2. Create a directory of vendor delivery rates under the `shipping_agreement` contract from the data of the `vendor_agreement_description` line separated by ":". Field names:
 - `agreementid` PK,
 - `agreement_number`,
 - `agreement_rate`,
 - `agreement_commission`.
 
-3. Создать справочник о типах доставки `shipping_transfer` из строки `shipping_transfer_description` через разделитель `:`.
-Названия полей:
+3. Create a guide about shipping types `shipping_transfer` from the string `shipping_transfer_description` separated by `:`.
+Field names:
 - `transfer_type` serial PK,
 - `transfer_model`,
 - `shipping_transfer_rate` .
 
-4. Создать таблицу `shipping_info` с уникальными доставками `shippingid` и связать её с созданными справочниками `shipping_country_rates`, `shipping_agreement`, `shipping_transfer` и константной информацией о доставке `shipping_plan_datetime` , `payment_amount` , `vendorid` .
+4. Create a table `shipping_info` with unique deliveries `shippingid` and link it to the created references `shipping_country_rates`, `shipping_agreement`, `shipping_transfer` and constant shipping information `shipping_plan_datetime`, `payment_amount`, `vendorid`.
 
-5. Создать таблицу статусов о доставке `shipping_status` и включите туда информацию из лога `shipping (status , state)`. Добаить туда вычислимую информацию по фактическому времени доставки `shipping_start_fact_datetime`, `shipping_end_fact_datetime` . Отразить для каждого уникального `shippingid` его итоговое состояние доставки.
+5. Create a shipping status table `shipping_status` and include information from the `shipping (status , state)` log. Add there computable information on the actual delivery time `shipping_start_fact_datetime`, `shipping_end_fact_datetime`. Reflect for each unique `shippingid` its final delivery status.
 
-6. Создать представление `shipping_datamart` на основании готовых таблиц для аналитики и включить в него:
+6. Create a `shipping_datamart` view based on ready-made tables for analytics and include in it:
 - `shippingid`
 - `vendorid`
-- `transfer_type` — тип доставки из таблицы shipping_transfer
-- `full_day_at_shipping` — количество полных дней, в течение которых длилась доставка. Высчитывается как: `shipping_end_fact_datetime-shipping_start_fact_datetime`.
-- `is_delay` — статус, показывающий просрочена ли доставка. Высчитывается как: `shipping_end_fact_datetime > shipping_plan_datetime → 1 ; 0`
-- `is_shipping_finish` — статус, показывающий, что доставка завершена. Если финальный `status = finished → 1; 0`
-- `delay_day_at_shipping` — количество дней, на которые была просрочена доставка. Высчитыается как: `shipping_end_fact_datetime > shipping_end_plan_datetime → shipping_end_fact_datetime - shipping_plan_datetime ; 0`.
-- `payment_amount` — сумма платежа пользователя
-- `vat` — итоговый налог на доставку. Высчитывается как: `payment_amount * ( shipping_country_base_rate + agreement_rate + shipping_transfer_rate)` .
-- `profit` — итоговый доход компании с доставки. Высчитывается как: `payment_amount * agreement_commission`.
+- `transfer_type` — delivery type from shipping_transfer
+- `full_day_at_shipping` — the number of full days the delivery took. Calculated as: `shipping_end_fact_datetime-shipping_start_fact_datetime`.
+- `is_delay` - status indicating whether the delivery is overdue. Calculated as: `shipping_end_fact_datetime > shipping_plan_datetime → 1 ; 0`
+- `is_shipping_finish` - status indicating that the delivery is completed. If final `status = finished → 1; 0`
+- `delay_day_at_shipping` - the number of days the delivery was overdue. Calculated as: `shipping_end_fact_datetime > shipping_end_plan_datetime → shipping_end_fact_datetime - shipping_plan_datetime ; 0`.
+- `payment_amount` — user's payment amount
+- `vat` — total shipping tax. Calculated as: `payment_amount * ( shipping_country_base_rate + agreement_rate + shipping_transfer_rate)` .
+- `profit` — the company's total income from delivery. Calculated as: `payment_amount * agreement_commission`.
 
-## Отработка скриптов
-Скрипты выполняются последовательно:
+## Scripts secuence, run it one by one
 
 - 1_create_tables.sql
 
