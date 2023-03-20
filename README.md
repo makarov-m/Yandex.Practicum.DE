@@ -4,6 +4,12 @@ Here I added 4 projects which have been made by me during my apprenticeship in Y
 
 ## Table of content:
 
+**[7. Social network](...under development...)** <br />
+**Topic:** Data Lake<br />
+**Task:** Create data marts on regular basis in Apache Hadoop file system<br />
+**Tools:** PySpark, Hadoop, Airflow <br />
+**Results:** Created 3 spark jobs and scheduled with DAG in Airflow<br />
+
 **[4. Settlements with couriers](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-5)** <br />
 **Topic:** ETL pipepline creation<br />
 **Task:** Load data from external API to the local DB with Apache Airflow <br />
