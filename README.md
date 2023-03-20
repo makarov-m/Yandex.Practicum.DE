@@ -4,7 +4,7 @@ Here I added 6 projects which have been made by me during my apprenticeship in Y
 
 ## Table of content:
 
-**[7. Social network](...under development...)** <br />
+**[7. Social network](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-7)** <br />
 **Topic:** Data Lake<br />
 **Task:** Create data marts on regular basis in Apache Hadoop file system<br />
 **Tools:** PySpark, Hadoop, Airflow <br />
@@ -15,6 +15,8 @@ Here I added 6 projects which have been made by me during my apprenticeship in Y
 **Task:** Build an analytical storage based on Vertica using Data Vault storage model. <br />
 **Tools:** Python, Docker, Vertica, Airflow <br />
 **Results:** Created analytical datawarehouse with 2 layares based on Verica DB<br />
+
+**[5. No project 5]()** <br />
 
 **[4. Settlements with couriers](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-5)** <br />
 **Topic:** ETL pipepline creation<br />
