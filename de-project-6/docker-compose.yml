@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  project:
+    image: sindb/de-pg-cr-af:latest
+    ports:
+      - "3000:3000"
+      - "3002:3002"
+      - "15432:5432"
+    volumes:
+      - mydb:/var/lib/postgresql
+      - ${AIRFLOW_DAGS_DIR:-./src/dags}:/lessons/dags
+      - ${PWD}/data/:/data:rw
+
+volumes:
+  mydb:
+
