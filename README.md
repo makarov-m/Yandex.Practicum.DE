@@ -10,7 +10,7 @@ Here I added 6 projects which have been made by me during my apprenticeship in Y
 **Tools:** PySpark, Hadoop, Airflow <br />
 **Results:** Created 3 spark jobs and scheduled with DAG in Airflow<br />
 
-**[6. Analytical datawarehouse](...under development...)** <br />
+**[6. Analytical datawarehouse](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-6)** <br />
 **Topic:** Data Vault<br />
 **Task:** Build an analytical storage based on Vertica using Data Vault storage model. <br />
 **Tools:** Python, Docker, Vertica, Airflow <br />
