@@ -7,7 +7,7 @@ Here I added 6 projects which have been made by me during my apprenticeship in Y
 **[9. Micro services](https://github.com/makarov-m/Yandex.Practicum.DE/...)** <br />
 **Topic:** Cloud services <br />
 **Task:** Receive real-time data from the Kafka broker, process and decompose into different layers of the data warehouse<br />
-**Tools:** Kafka, Postgres, Redis, Kubernetis, Python <br />
+**Tools:** Kafka, Postgres, Redis, kubernetes, Python <br />
 **Results:** Three microservices has been developed <br />
 
 **[8. Restaurant promotions](https://github.com/makarov-m/Yandex.Practicum.DE/...)** <br />
