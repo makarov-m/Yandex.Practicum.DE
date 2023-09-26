@@ -10,7 +10,7 @@ Here I added 6 projects which have been made by me during my apprenticeship in Y
 **Tools:** Kafka, Postgres, Redis, kubernetes, Python <br />
 **Results:** Three microservices has been developed <br />
 
-**[8. Restaurant promotions](https://github.com/makarov-m/Yandex.Practicum.DE/...)** <br />
+**[8. Restaurant promotions](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-8)** <br />
 **Topic:** Real time data processing<br />
 **Task:** Receive messages from Kafka, process and send to two receivers: a Postgres database and a new topic for the Kafka broker<br />
 **Tools:** PySpark, Kafka, Postgres <br />
