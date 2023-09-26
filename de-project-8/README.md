@@ -13,8 +13,8 @@ The task is to pick up messages from Kafka, process and send them to receivers: 
 kafkacat -b rc1b-2erh7b35n4j4v869.mdb.yandexcloud.net:9091 \
 -X security.protocol=SASL_SSL \
 -X sasl.mechanisms=SCRAM-SHA-512 \
--X sasl.username="de-student" \
--X sasl.password="ltcneltyn" \
+-X sasl.username="de-..." \
+-X sasl.password="..." \
 -X ssl.ca.location=/usr/local/share/ca-certificates/Yandex/YandexCA.crt \
 -t project8.mmakarov_out  \
 -K \
@@ -26,8 +26,8 @@ kafkacat -b rc1b-2erh7b35n4j4v869.mdb.yandexcloud.net:9091 \
 kafkacat -b rc1b-2erh7b35n4j4v869.mdb.yandexcloud.net:9091 \
 -X security.protocol=SASL_SSL \
 -X sasl.mechanisms=SCRAM-SHA-512 \
--X sasl.username="de-student" \
--X sasl.password="ltcneltyn" \
+-X sasl.username="de-..." \
+-X sasl.password="..." \
 -X ssl.ca.location=/usr/local/share/ca-certificates/Yandex/YandexCA.crt \
 -t project8.mmakarov_in \
 -K: \
