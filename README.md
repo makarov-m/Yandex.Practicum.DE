@@ -4,7 +4,19 @@ Here I added 6 projects which have been made by me during my apprenticeship in Y
 
 ## Table of content:
 
-**[7. Social network](...under development...)** <br />
+**[9. Micro services](https://github.com/makarov-m/Yandex.Practicum.DE/...)** <br />
+**Topic:** Cloud services <br />
+**Task:** Receive real-time data from the Kafka broker, process and decompose into different layers of the data warehouse<br />
+**Tools:** Kafka, Postgres, Redis, kubernetes, Python <br />
+**Results:** Three microservices has been developed <br />
+
+**[8. Restaurant promotions](https://github.com/makarov-m/Yandex.Practicum.DE/...)** <br />
+**Topic:** Real time data processing<br />
+**Task:** Receive messages from Kafka, process and send to two receivers: a Postgres database and a new topic for the Kafka broker<br />
+**Tools:** PySpark, Kafka, Postgres <br />
+**Results:** Created real time data processing pipeline<br />
+
+**[7. Social network](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-7)** <br />
 **Topic:** Data Lake<br />
 **Task:** Create data marts on regular basis in Apache Hadoop file system<br />
 **Tools:** PySpark, Hadoop, Airflow <br />
@@ -15,6 +27,8 @@ Here I added 6 projects which have been made by me during my apprenticeship in Y
 **Task:** Build an analytical storage based on Vertica using Data Vault storage model. <br />
 **Tools:** Python, Docker, Vertica, Airflow <br />
 **Results:** Created analytical datawarehouse with 2 layares based on Verica DB<br />
+
+**[5. No project]()** <br />
 
 **[4. Settlements with couriers](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-5)** <br />
 **Topic:** ETL pipepline creation<br />
