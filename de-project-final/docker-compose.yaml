@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  de-final-prj-local:
+    build:
+      context: ./
+    image: src:local
+    ports:
+      - 8998:8998 
+      - 8280:8280
+      - 15432:5432
+    volumes:
+      - ${AIRFLOW_DAGS_DIR:-./src/dags}:/lessons/dags
+      - ${DATA_DIR:-./data}:/lessons/data
+      - ${CERT_DIR:-./cert}:/lessons/cert
+      - "./store/metabase_plugins/vertica-jdbc-12.0.4-0.jar:/opt/metabase/plugins/vertica-jdbc-12.0.4-0.jar:ro"
