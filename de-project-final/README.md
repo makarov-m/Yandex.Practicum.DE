@@ -1,17 +1,18 @@
-# Итоговый проект
+# Final Project
 
-### Описание
-Репозиторий предназначен для сдачи итогового проекта.
+### Description
 
-В этом проекте вы поработаете с данными финтех-стартапа, который предлагает международные банковские услуги через приложение: пользователи могут безопасно переводить деньги в разные страны. 
+This project presents the data work of a fintech startup that offers international banking services through an application: users can safely transfer money to different countries.
 
-Команда аналитиков попросила вас собрать данные по транзакционной активности пользователей и настроить обновление таблицы с курсом валют. 
+Analytics team made a request to collect data on user transaction activity and set up an update to the table with exchange rates.
 
-Цель — понять, как выглядит динамика оборота всей компании и что приводит к его изменениям. 
+The goal is to understand what the turnover dynamics of the entire company looks like and what leads to its changes.
+
+### Workflow schema
+
+![](https://github.com/makarov-m/Yandex.Practicum.DE/blob/main/de-project-final/pics/pipeline.png)
 
 ### Unpacking infrastructure using following pipeline
-
-![](/pics/pipeline.png)
 
 #### 1. Local docker
 
@@ -20,42 +21,42 @@ cd /Users/max/Documents/GitHub/de-project-sprint-9
 docker-compose up -d
 ```
 
-- подключение к Metabase `http://localhost:8998/`, пользователь — `smartflip@yandex.ru`; пароль — `metabase_pass1`
-- подключение к Airflow `http://localhost:8280/airflow/`, пользователь — `AirflowAdmin`; пароль — `airflow_pass`
-- подключение к PostgreSQL: пользователь — `jovyan`; пароль — `jovyan`.
+- Metabase connection `http://localhost:8998/`, account — `smartflip@yandex.ru`; password — `<...>`
+- Airflow connection `http://localhost:8280/airflow/`, account — `AirflowAdmin`; password — `<...>`
+- PostgreSQL connection: account — `<...>`; password — `<...>`.
 
 #### 2. PostgreSQL
 
 data structure in `transactions` table: 
 
-- `operation_id` — id транзакции;
-- `account_number_from` — внутренний бухгалтерский номер счёта транзакции ОТ КОГО;
-- `account_number_to` — внутренний бухгалтерский номер счёта транзакции К КОМУ;
-- `currency_code` — трёхзначный код валюты страны, из которой идёт транзакция;
-- `country` — страна-источник транзакции;
-- `status` — статус проведения транзакции: 
-	- **queued** («транзакция в очереди на обработку сервисом»), 
-	- **in_progress** («транзакция в обработке»), 
-	- **blocked** («транзакция заблокирована сервисом»), 
-	- **done** («транзакция выполнена успешно»), 
-	- **chargeback** («пользователь осуществил возврат по транзакции»).
-- `transaction_type` — тип транзакции во внутреннем учёте: 
-	- **authorisation** («авторизационная транзакция, подтверждающая наличие счёта пользователя»), 
-	- **sbp_incoming** («входящий перевод по системе быстрых платежей»), 
-	- **sbp_outgoing** («исходящий перевод по системе быстрых платежей»), 
-	- **transfer_incoming** («входящий перевод по счёту»), 
-	- **transfer_outgoing** («исходящий перевод по счёту»), 
-	- **c2b_partner_incoming** («перевод от юридического лица»), 
-	- **c2b_partner_outgoing** («перевод юридическому лицу»).
-- `amount` — целочисленная сумма транзакции в минимальной единице валюты страны (копейка, цент, куруш);
-- `transaction_dt` — дата и время исполнения транзакции до миллисекунд.
+- `operation_id` — transaction id;
+- `account_number_from` — internal accounting number of the transaction account FROM WHOM;
+- `account_number_to` — internal accounting account number of the transaction TO WHOM;
+- `currency_code` — three-digit code of the currency of the country from which the transaction originates;
+- `country` — transaction source country;
+- `status` — transaction status:
+	- **queued** (“transaction in queue for processing by the service”),
+	- **in_progress** (“transaction in progress”),
+	- **blocked** (“transaction is blocked by the service”),
+	- **done** (“transaction completed successfully”),
+	- **chargeback** (“the user has made a chargeback for the transaction”).
+- `transaction_type` — transaction type in internal accounting:
+	- **authorisation** (“authorization transaction confirming the existence of a user account”),
+	- **sbp_incoming** (“incoming transfer via the fast payment system”),
+	- **sbp_outgoing** (“outgoing transfer using the fast payment system”),
+	- **transfer_incoming** (“incoming account transfer”),
+	- **transfer_outgoing** (“outgoing account transfer”),
+	- **c2b_partner_incoming** (“transfer from a legal entity”),
+	- **c2b_partner_outgoing** (“transfer to a legal entity”).
+- `amount` — integer transaction amount in the minimum unit of the country’s currency (kopeck, cent, kurush);
+- `transaction_dt` — date and time of transaction execution up to milliseconds.
 
 data structure in `currencies` table: 
 
-- `date_update` — дата обновления курса валют;
-- `currency_code` — трёхзначный код валюты транзакции;
-- `currency_code_with` — отношение другой валюты к валюте трёхзначного кода;
-- `currency_code_div` — значение отношения единицы одной валюты к единице валюты транзакции.
+- `date_update` — date of update of the exchange rate;
+- `currency_code` — three-digit transaction currency code;
+- `currency_code_with` — the ratio of another currency to the currency of the three-digit code;
+- `currency_code_div` - the value of the ratio of a unit of one currency to a unit of the transaction currency.
 
 #### 3. AirFlow
 
@@ -65,7 +66,7 @@ postgres_conn = {
     "host": "rc1b-w5d285tmxa8jimyn.mdb.yandexcloud.net",
     "port": 6432,
     "user": "student",
-    "password": "de_student_112022",
+    "password": "<...>",
     "database": "db1",
 	{
 		"sslmode": "verify-ca",  
@@ -81,7 +82,7 @@ vertica_conn = {
     "host": "vertica.tgcloudenv.ru",
     "port": 5433,
     "user": "smartflipyandexru",
-    "password": "yI8pKMyWliMeKYY",
+    "password": "<...>",
     "database": "dwh"
 }
 ```
@@ -112,12 +113,12 @@ airflow dags backfill 5_CDM_vertica_load --start-date 2022-10-01 --end-date 2022
 
 Data structure in `global_metrics` table in CDM layer: 
 
-- `date_update` — дата расчёта,
-- `currency_from` — код валюты транзакции;
-- `amount_total` — общая сумма транзакций по валюте в долларах;
-- `cnt_transactions` — общий объём транзакций по валюте;
-- `avg_transactions_per_account` — средний объём транзакций с аккаунта;
-- `cnt_accounts_make_transactions` — количество уникальных аккаунтов с совершёнными транзакциями по валюте.
+- `date_update` — calculation date,
+- `currency_from` — transaction currency code;
+- `amount_total` — total amount of transactions by currency in dollars;
+- `cnt_transactions` — total volume of transactions by currency;
+- `avg_transactions_per_account` — average volume of transactions per account;
+- `cnt_accounts_make_transactions` — the number of unique accounts with completed transactions by currency.
 
 
 5. When the data uploaded to CDM layer it become possible to visualize the final data mart.
@@ -145,23 +146,11 @@ Install Dependencies:
 
 ```pip install -r requirements.txt```
 
-### Как работать с репозиторием
-1. В вашем GitHub-аккаунте автоматически создастся репозиторий `de-project-final` после того, как вы привяжете свой GitHub-аккаунт на Платформе.
-2. Скопируйте репозиторий на свой компьютер. В качестве пароля укажите ваш `Access Token`, который нужно получить на странице [Personal Access Tokens](https://github.com/settings/tokens)):
-	* `git clone https://github.com/Yandex-Practicum/de-project-final`
-3. Перейдите в директорию с проектом: 
-	* `cd de-project-final`
-4. Выполните проект и сохраните получившийся код в локальном репозитории:
-	* `git add .`
-	* `git commit -m 'my best commit'`
-5. Обновите репозиторий в вашем GitHub-аккаунте:
-	* `git push origin main`
+### Repository structure
+The files in the repository will be used for review and feedback on the project. Therefore, try to publish your solution according to the established structure: this will make it easier to relate tasks to solutions.
 
-### Структура репозитория
-Файлы в репозитории будут использоваться для проверки и обратной связи по проекту. Поэтому постарайтесь публиковать ваше решение согласно установленной структуре: так будет проще соотнести задания с решениями.
-
-Внутри `src` расположены папки:
-- `/src/dags` - вложите в эту папку код DAG, который поставляет данные из источника в хранилище. Назовите DAG `1_data_import.py`. Также разместите здесь DAG, который обновляет витрины данных. Назовите DAG `2_datamart_update.py`.
-- `/src/sql` - сюда вложите SQL-запрос формирования таблиц в `STAGING`- и `DWH`-слоях, а также скрипт подготовки данных для итоговой витрины.
-- `/src/py` - если источником вы выберете Kafka, то в этой папке разместите код запуска генерации и чтения данных в топик.
-- `/src/img` - здесь разместите скриншот реализованного над витриной дашборда.
+Inside `src` there are folders:
+- `/src/dags` - place the DAG code in this folder, which supplies data from the source to the storage. Name the DAG `1_data_import.py`. Also place the DAG here that updates the data marts. Name the DAG `2_datamart_update.py`.
+- `/src/sql` - here insert the SQL query for forming tables in the `STAGING` and `DWH` layers, as well as the data preparation script for the final showcase.
+- `/src/py` - if you choose Kafka as the source, then in this folder place the code for launching generation and reading data into the topic.
+- `/src/img` - here place a screenshot of the dashboard implemented above the showcase.
