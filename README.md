@@ -1,8 +1,14 @@
 # Yandex.Practicum.DE
  
-Here I added 8 projects which have been made by me during my apprenticeship in Yandex.Practicum. Link for the platform https://practicum.yandex.ru/data-engineer/
+Here I added 9 projects which have been made by me during my apprenticeship in Yandex.Practicum. Link for the platform https://practicum.yandex.ru/data-engineer/
 
 ## Table of content:
+
+**[10. Final]([https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-9](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-final))** <br />
+**Topic:** Batch processing <br />
+**Task:** Create a pipeline, which retrieves data from Postgres for the given time period and uploads data extract to the Vertica <br />
+**Tools:** Postgres, Airflow, Vertica, Python, Metabase <br />
+**Results:** Stable pipeline has been developed <br />
 
 **[9. Micro services](https://github.com/makarov-m/Yandex.Practicum.DE/tree/main/de-project-9)** <br />
 **Topic:** Cloud services <br />
