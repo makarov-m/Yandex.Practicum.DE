@@ -1,37 +1,37 @@
-# Проект 9-го спринта
+# The 9th Project
 
-### Требования к DWH
-Цель построения ДВХ, бизнес требования:
-Architech планирует запустить тегирование пользователей в приложении на основе статистики по заказам. Например, пользователь заказал 10 раз пиццу — присваиваем ему тег «Любитель пиццы». 
+### DWH requirements
+The purpose of building the DWH. Business requirements:
+Architech plans to launch user tagging in the application based on order statistics. For example, a user has ordered pizza 10 times—we assign him the tag “Pizza Lover.”
 
-Как считаем заказы: 
-- Все расчёты ведём только по закрытым заказам со статусом CLOSED.
+How we count orders:
+- We carry out all calculations only for closed orders with the CLOSED status.
 
-Функциональные требования:
-- Формат входных данных - JSON
+Functional requirements:
+- Input data format - JSON
 
-Особенности слоёв: 
-- В STG — исходные данные as is.
-- В DDS — модель данных Data Vault.
-- В CDM — две витрины:
-	-	Первая витрина — счётчик заказов по блюдам; 
-	-	Вторая — счётчик заказов по категориям товаров.
+Features of layers:
+- In STG - initial data as is.
+- In DDS - Data Vault data model.
+- In CDM there are two showcases:
+	- The first display case is a counter for orders by dishes;
+	- The second is a counter of orders by product category.
 
-Нефункциональные требования:
-Первый канал — это поток заказов, который идёт в Kafka (5 заказов в минуту).
-Второй канал — это словарные данные (блюда, рестораны, пользователи), которые идут в Redis.
+Non-functional requirements:
+The first channel is the flow of orders that goes to Kafka (5 orders per minute).
+The second channel is dictionary data (dishes, restaurants, users) that goes to Redis.
 
-В качестве БД используется PostgreSQL. Логику обработки данных нужно написать на Python, она будет разворачиваться в Kubernetes. Брокер сообщений как на вход, так и для обмена данными между сервисами — Kafka. Надо обеспечить идемпотентность обработки сообщений из брокера.
+PostgreSQL is used as the database. The data processing logic needs to be written in Python; it will be deployed in Kubernetes. The message broker for both input and data exchange between services is Kafka. It is necessary to ensure idempotency in processing messages from the broker.
 
 ### Action Plan
-1. Сначала нужно поднять сервисы, в которые поступают входные данные. Так можно сразу изучить оригинальную информацию. Рзворачиваем — Redis и Kafka, порядок не имеет значения.
-2. Стоит продолжить разворачивать инфраструктуру, чтобы все части DWH были готовы к разработке. Системы для получения данных подняты, значит, на очереди запуск базы под хранилище. 
-3. Чтобы развернуть микросервисную архитектуру в облаке и все пользователи имели доступ к созданным образам необходимо дополнительно поднять Container Registry, который в дальнейшем потребуется для запуска написанных сервисов. 
-4. Когда все инструменты развернуты, можно переходить за разработку DWH.
-5. Слой STG — первый по порядку обработки данных. Значит, сначала нужно написать сервис, который заполняет этот слой, — STG-сервис.
-6. После слоя STG идёт слой DDS, поэтому следом за STG-сервисом реализуем DDS-сервис.
-7. Последний этап — построить витрины. Поэтому необходимо реализовать CDM-сервис, который рассчитает витрины.
-8. Datalens — это сервис для бизнес-аналитики от компании Яндекс. Инструмент предоставляется бесплатно.
+1. First you need to raise the services that receive input data. This way you can immediately study the original information. Let's expand - Redis and Kafka, the order does not matter.
+2. It is worth continuing to roll out the infrastructure so that all parts of DWH are ready for development. The systems for obtaining data are up, which means that the next step is to launch the database for storage.
+3. In order to deploy a microservice architecture in the cloud and all users have access to the created images, it is necessary to additionally raise the Container Registry, which will later be required to launch the written services.
+4. When all the tools are deployed, you can move on to developing the DWH.
+5. The STG layer is the first in the order of data processing. This means that you first need to write a service that fills this layer - an STG service.
+6. After the STG layer comes the DDS layer, so after the STG service we implement the DDS service.
+7. The last stage is to build showcases. Therefore, it is necessary to implement a CDM service that will calculate storefronts.
+8. Datalens is a service for business analytics from Yandex. The tool is provided free of charge.
 
 ### Workflow schema
 
@@ -58,14 +58,14 @@ Architech планирует запустить тегирование поль�
 - requirements.txt 
 ```
 
-В каталоге app лежит Helm Chart — набор инструкций, как именно развернуть ваш сервис в Kubernetes c помощью утилиты Helm. 
+The app directory contains a Helm Chart - a set of instructions on exactly how to deploy your service in Kubernetes using the Helm utility.
 
-В каталоге src находится исходный код нашего сервиса в подкаталоге layer_loader, а также подкатолог lib находится код для подключения к Kafka, Redis и Postgres.
+The src directory contains the source code of our service in the layer_loader subdirectory, and the lib subdirectory contains code for connecting to Kafka, Redis and Postgres.
 
-Файл app.py задаёт структуру вашего сервиса;
-Конфигурация подключения задается в app_config.py; 
-В Dockerfile описываем логику сборки образа контейнера; 
-В файле requirement.txt содержится список необходимых библиотек. 
+The app.py file defines the structure of your service;
+The connection configuration is set in app_config.py;
+In the Dockerfile we describe the logic for building the container image;
+The requirement.txt file contains a list of required libraries.
 
 ## REDIS init
 
@@ -78,7 +78,7 @@ curl -X POST https://redis-data-service.sprint9.tgcloudenv.ru/test_redis \
     "redis":{
         "host": "c-c9qrmej16t8lg8oc3blu.rw.mdb.yandexcloud.net",
         "port": 6380,
-        "password": "adminadmin"
+        "password": "<...>"
     }
 }
 EOF
@@ -93,7 +93,7 @@ curl -X POST https://redis-data-service.sprint9.tgcloudenv.ru/load_users \
     "redis":{
         "host": "c-c9qrmej16t8lg8oc3blu.rw.mdb.yandexcloud.net",
         "port": 6380,
-        "password": "adminadmin"
+        "password": "<...>"
     }
 }
 EOF
@@ -108,7 +108,7 @@ curl -X POST https://redis-data-service.sprint9.tgcloudenv.ru/load_restaurants \
     "redis":{
         "host": "c-c9qrmej16t8lg8oc3blu.rw.mdb.yandexcloud.net",
         "port": 6380,
-        "password": "adminadmin"
+        "password": "<...>"
     }
 }
 EOF
@@ -127,7 +127,7 @@ docker run \
     -X security.protocol=SASL_SSL \
     -X sasl.mechanisms=SCRAM-SHA-512 \
     -X sasl.username=producer_consumer \
-    -X sasl.password="adminadmin" \
+    -X sasl.password="<...>" \
     -X ssl.ca.location=/data/CA.pem \
     -L
 ```
@@ -144,7 +144,7 @@ docker run \
     -X security.protocol=SASL_SSL \
     -X sasl.mechanisms=SCRAM-SHA-512 \
     -X sasl.username=producer_consumer \
-    -X sasl.password="adminadmin" \
+    -X sasl.password="<...>" \
     -X ssl.ca.location=/data/CA.pem \
     -t order-service_orders \
     -C \
@@ -162,7 +162,7 @@ curl -X POST https://order-gen-service.sprint9.tgcloudenv.ru/test_kafka \
         "port": 9091,
         "topic": "order-service_orders",
         "producer_name": "producer_consumer",
-        "producer_password": "adminadmin"
+        "producer_password": "<...>"
     }
 }'
 ```
@@ -178,7 +178,7 @@ curl -X POST https://order-gen-service.sprint9.tgcloudenv.ru/register_kafka \
         "port": 9091,
         "topic": "order-service_orders",
         "producer_name": "producer_consumer",
-        "producer_password": "adminadmin"
+        "producer_password": "<...>"
     }
 }'
 ```
@@ -197,7 +197,7 @@ curl -X POST https://postgres-check-service.sprint9.tgcloudenv.ru/init_schemas \
     "port": 6432,
     "dbname": "sprint9dwh",
     "username": "de_max",
-    "password": "adminadmin"
+    "password": "<...>"
   }
 }
 EOF
@@ -218,7 +218,7 @@ helm delete cdm-service -n c08-maksim-makarov
 ```
 
 ```bash
-# Подготовьте kubeconfig: запишите путь до файла kubeconfig в переменную
+# Prepare kubeconfig: write the path to the kubeconfig file to a variable
 export KUBECONFIG=/Users/max/.kube/config
 ```
 
@@ -258,15 +258,3 @@ cd /Users/max/Documents/GitHub/de-project-sprint-9/solution/service_cdm
 helm install cdm-service app -n c08-maksim-makarov
 kubectl get pods
 ```
-
-### Как работать с репозиторием
-1. В вашем GitHub-аккаунте автоматически создастся репозиторий `de-project-sprint-9` после того, как вы привяжете свой GitHub-аккаунт на Платформе.
-2. Скопируйте репозиторий на свой компьютер. В качестве пароля укажите ваш `Access Token`, который нужно получить на странице [Personal Access Tokens](https://github.com/settings/tokens)):
-	* `git clone https://github.com/{{ username }}/de-project-sprint-9.git`
-3. Перейдите в директорию с проектом: 
-	* `cd de-project-sprint-9`
-4. Выполните проект и сохраните получившийся код в локальном репозитории:
-	* `git add .`
-	* `git commit -m 'my best commit'`
-5. Обновите репозиторий в вашем GitHub-аккаунте:
-	* `git push origin main`
