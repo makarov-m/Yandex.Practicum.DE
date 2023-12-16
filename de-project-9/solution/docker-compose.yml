@@ -1,0 +1,91 @@
+version: "3.9"
+
+services:
+  stg_service:
+    build:
+      context: ./service_stg
+      network: host
+    image: stg_service:local
+    container_name: stg_service_container
+    environment:
+      FLASK_APP: ${STG_SERVICE_APP_NAME:-sample_service}
+      DEBUG: ${STG_SERVICE_APP_NAME:-True}
+
+      KAFKA_HOST: ${KAFKA_HOST}
+      KAFKA_PORT: ${KAFKA_PORT}
+      KAFKA_CONSUMER_USERNAME: ${KAFKA_CONSUMER_USERNAME}
+      KAFKA_CONSUMER_PASSWORD: ${KAFKA_CONSUMER_PASSWORD}
+      KAFKA_CONSUMER_GROUP: ${KAFKA_CONSUMER_GROUP}
+      KAFKA_SOURCE_TOPIC: ${KAFKA_SOURCE_TOPIC}
+      KAFKA_DESTINATION_TOPIC: ${KAFKA_STG_SERVICE_ORDERS_TOPIC}
+
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+
+      PG_WAREHOUSE_HOST: ${PG_WAREHOUSE_HOST}
+      PG_WAREHOUSE_PORT: ${PG_WAREHOUSE_PORT}
+      PG_WAREHOUSE_DBNAME: ${PG_WAREHOUSE_DBNAME}
+      PG_WAREHOUSE_USER: ${PG_WAREHOUSE_USER}
+      PG_WAREHOUSE_PASSWORD: ${PG_WAREHOUSE_PASSWORD} 
+    network_mode: "bridge"
+    ports:
+      - "5011:5000"
+    restart: unless-stopped
+
+  dds_service:
+    build:
+      context: ./service_dds
+      network: host
+    image: dds_service:local
+    container_name: dds_service_container
+    environment:
+      FLASK_APP: ${DDS_APP:-dds_service}
+      DEBUG: ${DDS_DEBUG:-False}
+
+      KAFKA_HOST: ${KAFKA_HOST}
+      KAFKA_PORT: ${KAFKA_PORT}
+      KAFKA_CONSUMER_USERNAME: ${KAFKA_CONSUMER_USERNAME}
+      KAFKA_CONSUMER_PASSWORD: ${KAFKA_CONSUMER_PASSWORD}
+      KAFKA_CONSUMER_GROUP: ${KAFKA_CONSUMER_GROUP}
+      KAFKA_SOURCE_TOPIC: ${KAFKA_STG_SERVICE_ORDERS_TOPIC}
+      KAFKA_DESTINATION_TOPIC: ${KAFKA_DDS_SERVICE_ORDERS_TOPIC}
+
+      PG_WAREHOUSE_HOST: ${PG_WAREHOUSE_HOST}
+      PG_WAREHOUSE_PORT: ${PG_WAREHOUSE_PORT}
+      PG_WAREHOUSE_DBNAME: ${PG_WAREHOUSE_DBNAME}
+      PG_WAREHOUSE_USER: ${PG_WAREHOUSE_USER}
+      PG_WAREHOUSE_PASSWORD: ${PG_WAREHOUSE_PASSWORD}
+
+    network_mode: "bridge"
+    ports:
+      - "5012:5000"
+    restart: unless-stopped
+
+  cdm_service:
+    build:
+      context: ./service_cdm
+      network: host
+    image: cdm_service:local
+    container_name: cdm_service_container
+    environment:
+      FLASK_APP: ${CDM_SERVICE_APP:-cdm_service}
+      DEBUG: ${CDM_SERVICE_DEBUG:-False}
+
+      KAFKA_HOST: ${KAFKA_HOST}
+      KAFKA_PORT: ${KAFKA_PORT}
+      KAFKA_CONSUMER_USERNAME: ${KAFKA_CONSUMER_USERNAME}
+      KAFKA_CONSUMER_PASSWORD: ${KAFKA_CONSUMER_PASSWORD}
+      KAFKA_CONSUMER_GROUP: ${KAFKA_CONSUMER_GROUP}
+      KAFKA_SOURCE_TOPIC: ${KAFKA_DDS_SERVICE_ORDERS_TOPIC}
+
+      PG_WAREHOUSE_HOST: ${PG_WAREHOUSE_HOST}
+      PG_WAREHOUSE_PORT: ${PG_WAREHOUSE_PORT}
+      PG_WAREHOUSE_DBNAME: ${PG_WAREHOUSE_DBNAME}
+      PG_WAREHOUSE_USER: ${PG_WAREHOUSE_USER}
+      PG_WAREHOUSE_PASSWORD: ${PG_WAREHOUSE_PASSWORD}
+
+    network_mode: "bridge"
+    ports:
+      - "5013:5000"
+    restart: unless-stopped

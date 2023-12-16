@@ -1,0 +1,54 @@
+0. вычитать сообщение можно тут https://codebeautify.org/jsonviewer
+object		{3}
+object_id	:	1507541
+object_type	:	order
+
+payload		{8}
+id	    :	1507541
+date	:	2023-04-19 07:14:57
+cost	:	3550
+payment	:	3550
+status	:	CLOSED
+
+restaurant		{2}
+id	    :	a51e4e31ae4602047ec52534
+name	:	Кубдари
+
+user		{2}
+id	    :	626a81ce9a8cd1920641e269
+name	:	Лев Егорович Фролов
+
+products		[52]
+
+
+1. подготовить структуру сервиса, файл - функционал
+- app.py - задаёт структуру нашего сервиса (читаем из кафки, обрабатываем и записываем в базу)
+- app_config.py - задать конфиг для нового топика кафки 
+- dds_message_processor_job.py - содержит основную бизнес-логику обработки сообщений
+- dds_repository.py - выполняет функцию вставки сообщений в базу postgres
+
+2. вычитать сообщение из топика stg-service-orders (с обогощенными данными)
+3. выделить сущности согласно таблицам 
+4. чекнуть правильность таблиц в базе (первичные ключи)
+5. запушить данные в постгресс
+
+- h_category
+- h_orders
+- h_product
+- h_restaurant
+- h_user
+
+- l_order_product
+- l_order_user
+- l_product_category
+- l_product_restaurant
+
+- s_order_cost
+- s_order_status
+- s_product_names
+- s_restaurant_names
+- s_user_names
+
+6. после подготовить чарт для выкатки в кубернетис
+chart.yaml
+values.yaml
